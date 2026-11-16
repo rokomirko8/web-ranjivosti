@@ -13,7 +13,6 @@ app.use(session({
   saveUninitialized: false,
 }));
 
-// ---------- BAZA ----------
 const db = new Database(':memory:');
 
 db.exec(`
@@ -40,7 +39,6 @@ addUser.run('admin', 'admin123', 'admin', 'admin@firma.hr', '11111111111', 'Unsk
 addUser.run('Roko', 'Roko123', 'user',  'roko@mail.hr',  '22222222222', 'Ilica 10, Zagreb');
 addUser.run('Frano',   'Frano123',   'user',  'frano@mail.hr',    '33333333333', 'Vukovarska 5, Split');
 
-// ---------- PREKIDAČI ----------
 const vuln = { xss: true, bac: true };
 
 app.use((req, res, next) => {
