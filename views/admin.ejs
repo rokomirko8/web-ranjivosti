@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin stranica</title>
+</head>
+<body>
+  <p>Prijavljen kao <b><%= user.username %></b> (ID: <%= user.id %>, uloga: <%= user.role %>)</p>
+  <h1>Admin stranica - svi korisnici</h1>
+
+  <% if (user.role !== 'admin') { %>
+    <p style="color:red"><b>Nisi administrator, a vidiš admin stranicu!</b></p>
+  <% } %>
+
+  <table border="1" cellpadding="6">
+    <tr><th>ID</th><th>Korisničko ime</th><th>Uloga</th><th>E-mail</th><th>OIB</th><th>Adresa</th></tr>
+    <% users.forEach(u => { %>
+      <tr>
+        <td><%= u.id %></td>
+        <td><%= u.username %></td>
+        <td><%= u.role %></td>
+        <td><%= u.email %></td>
+        <td><%= u.oib %></td>
+        <td><%= u.adresa %></td>
+      </tr>
+    <% }) %>
+  </table>
+
+  <p><a href="/">&larr; Natrag na početnu</a></p>
+</body>
+</html>

@@ -8,7 +8,7 @@
   <h1>Drugi projekt - XSS i Broken Access Control</h1>
 
   <% if (user) { %>
-    <p>Prijavljen kao <b><%= user.username %></b> (uloga: <%= user.role %>)</p>
+    <p>Prijavljen kao <b><%= user.username %></b> (ID: <%= user.id %>, uloga: <%= user.role %>)</p>
     <form method="POST" action="/logout"><button>Odjava</button></form>
   <% } else { %>
     <form method="POST" action="/login">
@@ -19,6 +19,8 @@
     <p><small>Testni korisnici: Roko / Roko123, Frano / Frano123, admin / admin123</small></p>
     <% if (error) { %><p style="color:red"><%= error %></p><% } %>
   <% } %>
+
+  <!-- ===================== XSS ===================== -->
   <hr>
   <h2>Cross-site scripting (XSS)</h2>
   <form method="POST" action="/toggle">
@@ -29,6 +31,40 @@
     </label>
   </form>
 
+  <p><small>
+    Za test objavi komentar:
+    <code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code>
+  </small></p>
+
+  <% if (user) { %>
+    <form method="POST" action="/comment">
+      <textarea name="text" rows="3" cols="60" placeholder="Napiši komentar..."></textarea><br>
+      <button>Objavi komentar</button>
+    </form>
+  <% } else { %>
+    <p><i>Prijavi se da bi mogao komentirati.</i></p>
+  <% } %>
+
+  <form method="POST" action="/comments/clear">
+    <button>Obriši sve komentare</button>
+  </form>
+
+  <h3>Komentari</h3>
+  <% if (comments.length === 0) { %>
+    <p><i>Još nema komentara.</i></p>
+  <% } %>
+  <% comments.forEach(c => { %>
+    <div style="border:1px solid #ccc; padding:6px; margin:6px 0">
+      <b><%= c.author %>:</b>
+      <% if (vuln.xss) { %>
+        <%- c.text %>
+      <% } else { %>
+        <%= c.text %>
+      <% } %>
+    </div>
+  <% }) %>
+
+  <!-- ===================== BROKEN ACCESS CONTROL ===================== -->
   <hr>
   <h2>Loša kontrola pristupa (Broken Access Control)</h2>
   <form method="POST" action="/toggle">
@@ -38,5 +74,19 @@
       Ranjivost uključena
     </label>
   </form>
+
+  <% if (user) { %>
+    <p>
+      <a href="/profil?id=<%= user.id %>">Moj profil</a> |
+      <a href="/admin">Admin stranica</a>
+    </p>
+    <form method="GET" action="/profil">
+      Otvori profil korisnika s ID-om:
+      <input name="id" type="number" min="1" value="3" style="width:60px">
+      <button>Otvori</button>
+    </form>
+  <% } else { %>
+    <p><i>Prijavi se da bi testirao kontrolu pristupa.</i></p>
+  <% } %>
 </body>
 </html>
