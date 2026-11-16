@@ -5,19 +5,6 @@ Web-aplikacija s dvije namjerno ugrađene ranjivosti koje se uključuju i isklju
 1. **Cross-site scripting (XSS)** – pohranjeni (stored) XSS kroz komentare
 2. **Loša kontrola pristupa (Broken Access Control)** – IDOR na profilima i nezaštićena admin stranica
 
-## Pokretanje lokalno
-
-Potreban je Node.js 22 ili noviji.
-
-```
-npm install
-npm start
-```
-
-Aplikacija se otvara na http://localhost:3000
-
-Baza (SQLite) je u memoriji i puni se pri svakom pokretanju, pa svaki restart vraća početno stanje.
-
 ## Testni korisnici
 
 | Korisnik | Lozinka  | ID | Uloga |
