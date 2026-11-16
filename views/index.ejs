@@ -7,6 +7,18 @@
 <body>
   <h1>Drugi projekt - XSS i Broken Access Control</h1>
 
+  <% if (user) { %>
+    <p>Prijavljen kao <b><%= user.username %></b> (uloga: <%= user.role %>)</p>
+    <form method="POST" action="/logout"><button>Odjava</button></form>
+  <% } else { %>
+    <form method="POST" action="/login">
+      <input name="username" placeholder="korisničko ime">
+      <input name="password" type="password" placeholder="lozinka">
+      <button>Prijava</button>
+    </form>
+    <p><small>Testni korisnici: Roko / Roko123, Frano / Frano123, admin / admin123</small></p>
+    <% if (error) { %><p style="color:red"><%= error %></p><% } %>
+  <% } %>
   <hr>
   <h2>Cross-site scripting (XSS)</h2>
   <form method="POST" action="/toggle">

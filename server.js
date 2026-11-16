@@ -37,8 +37,8 @@ const addUser = db.prepare(
   'INSERT INTO users (username, password, role, email, oib, adresa) VALUES (?, ?, ?, ?, ?, ?)'
 );
 addUser.run('admin', 'admin123', 'admin', 'admin@firma.hr', '11111111111', 'Unska 3, Zagreb');
-addUser.run('alice', 'alice123', 'user',  'alice@mail.hr',  '22222222222', 'Ilica 10, Zagreb');
-addUser.run('bob',   'bob123',   'user',  'bob@mail.hr',    '33333333333', 'Vukovarska 5, Split');
+addUser.run('Roko', 'Roko123', 'user',  'roko@mail.hr',  '22222222222', 'Ilica 10, Zagreb');
+addUser.run('Frano',   'Frano123',   'user',  'frano@mail.hr',    '33333333333', 'Vukovarska 5, Split');
 
 // ---------- PREKIDAČI ----------
 const vuln = { xss: true, bac: true };
@@ -55,6 +55,23 @@ app.post('/toggle', (req, res) => {
     vuln[name] = req.body.on === 'on';
   }
   res.redirect('/');
+});
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  const u = db
+    .prepare('SELECT id, username, role FROM users WHERE username = ? AND password = ?')
+    .get(username, password);
+
+  if (!u) {
+    return res.render('index', { error: 'Pogrešno korisničko ime ili lozinka' });
+  }
+
+  req.session.user = u;
+  res.redirect('/');
+});
+
+app.post('/logout', (req, res) => {
+  req.session.destroy(() => res.redirect('/'));
 });
 app.get('/', (req, res) => {
   res.render('index', { error: null });
