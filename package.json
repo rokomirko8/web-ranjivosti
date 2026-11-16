@@ -1,0 +1,30 @@
+{
+  "name": "web-ranjivosti",
+  "version": "1.0.0",
+  "description": "",
+   "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rokomirko8/web-ranjivosti.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/rokomirko8/web-ranjivosti/issues"
+  },
+  "homepage": "https://github.com/rokomirko8/web-ranjivosti#readme",
+  "dependencies": {
+    "better-sqlite3": "^13.2.0",
+    "ejs": "^7.0.2",
+    "express": "^5.3.0",
+    "express-session": "^1.19.0"
+  }
+}

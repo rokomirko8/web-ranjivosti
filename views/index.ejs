@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <title>Web ranjivosti</title>
+</head>
+<body>
+  <h1>Drugi projekt - XSS i Broken Access Control</h1>
+
+  <hr>
+  <h2>Cross-site scripting (XSS)</h2>
+  <form method="POST" action="/toggle">
+    <input type="hidden" name="name" value="xss">
+    <label>
+      <input type="checkbox" name="on" <%= vuln.xss ? 'checked' : '' %> onchange="this.form.submit()">
+      Ranjivost uključena
+    </label>
+  </form>
+
+  <hr>
+  <h2>Loša kontrola pristupa (Broken Access Control)</h2>
+  <form method="POST" action="/toggle">
+    <input type="hidden" name="name" value="bac">
+    <label>
+      <input type="checkbox" name="on" <%= vuln.bac ? 'checked' : '' %> onchange="this.form.submit()">
+      Ranjivost uključena
+    </label>
+  </form>
+</body>
+</html>
